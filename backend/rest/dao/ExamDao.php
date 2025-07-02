@@ -142,5 +142,38 @@ class ExamDao {
 
       return $data;
     }
+
+    /** TODO
+     * Implement DAO method used to register a new user
+     */
+
+     public function register_user($email, $password) {
+        $stmt = $this->conn->prepare("INSERT INTO users (email, password) VALUES (:email, :password)");
+
+        $stmt->execute([
+          ':email' => $email,
+          ':password' => password_hash($password, PASSWORD_BCRYPT)
+        ]);
+        
+        return $this->conn->lastInsertId();
+     }
+
+    /** TODO
+     * Implement DAO method used to retreive user by email
+     */
+
+     public function get_user_by_email($email) {
+      $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = :email");
+      $stmt->execute([':email' => $email]);
+
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+     }
+
+    /** TODO
+     * close connection
+     */
+    public function close_connection() {
+        $this->conn = null;
+    }
 }
 ?>

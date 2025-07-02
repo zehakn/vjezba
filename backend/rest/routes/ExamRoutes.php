@@ -106,4 +106,40 @@ Flight::route('PUT /customer/@customer_id', function($customer_id){
     Flight::json(Flight::examService()->update_customer($customer_id, $data));
 });
 
+
+Flight::route('POST /register', function() {
+    /** TODO
+    * This endpoint should register a new user in the database
+    * The data that will come from the form has following properties
+    *   `email` -> email of the user
+    *   `password` -> password of the user
+    * This endpoint should return the id of the registered user in JSON format
+    */
+    try {
+        $data = Flight::request()->data->getData();
+        $id = Flight::examService()->register_user($data);
+        Flight::json(['message' => 'User registered', 'id' => $id]);
+    } catch (Exception $e) {
+        Flight::json(['error' => $e->getMessage()], 400);
+    }
+});
+
+Flight::route('POST /login', function() {
+    /** TODO
+    * This endpoint should log in the user
+    * The data that will come from the form has following properties
+    *   `email` -> email of the user
+    *   `password` -> password of the user
+    * This endpoint should return the id of the logged in user in JSON format
+    */
+    try {
+        $data = Flight::request()->data->getData();
+        $id = Flight::examService()->login_user($data);
+        Flight::json(['message' => 'User logged in', 'id' => $id]);
+    } catch (Exception $e) {
+        Flight::json(['error' => $e->getMessage()], 401);
+    }
+});
+
+
 ?>

@@ -51,5 +51,27 @@ class ExamService {
         */
         return $this->dao->update_customer($customer_id, $data);
     }
+
+
+    
+
+    public function register_user($data) {
+        if(!$data['email'] || !$data['password']) {
+            throw new Exception("missing fields");
+        }
+
+        return $this->dao->register_user($data['email'], $data['password']);
+    }
+
+    public function login_user($data) {
+        $user = $this->dao->get_user_by_email($data['email']);
+        if (!$user || !password_verify($data['password'], $user['password'])) {
+            throw new Exception("invalid email or password");
+        }
+
+        unset($user['password']);
+        return $user;
+    }
 }
+
 ?>
